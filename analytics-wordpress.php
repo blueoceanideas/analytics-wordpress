@@ -541,7 +541,7 @@ class Segment_Analytics_WordPress {
 		$identify = $this->get_current_user_identify();
 
 
-		if ( $identify ) {
+		if ( is_array($identify) ) {
 
 			if ( ! isset( $identify['options'] ) ) {
 				$identify['options'] = array();
