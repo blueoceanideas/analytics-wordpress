@@ -72,16 +72,16 @@ class Segment_Commerce_Woo extends Segment_Commerce {
 
 		if ( is_singular( 'product' ) ) {
 
-				$product = get_product( get_queried_object_id() );
+				$product = wc_get_product ( get_queried_object_id() );
 
 				$track = array(
 					'event'      => __( 'Viewed Product', 'segment' ),
 					'properties' => array(
-						'id'       => $product->id,
+						'id'       => $product->get_id(),
 						'sku'      => $product->get_sku(),
 						'name'     => $product->get_title(),
 						'price'    => $product->get_price(),
-						'category' => implode( ', ', wp_list_pluck( wc_get_product_terms( $product->ID, 'product_cat' ), 'name' ) ),
+						'category' => implode( ', ', wp_list_pluck( wc_get_product_terms( $product->get_id(), 'product_cat' ), 'name' ) ),
 					)
 				);
 		}
@@ -157,12 +157,12 @@ class Segment_Commerce_Woo extends Segment_Commerce {
 
 				if ( $product ) {
 					$item = array(
-						'id'       => $product->id,
+						'id'       => $product->get_id(),
 						'sku'      => $product->get_sku(),
 						'name'     => $product->get_title(),
 						'price'    => $product->get_price(),
-						'quantity' => $_product->quantity,
-						'category' => implode( ', ', wp_list_pluck( wc_get_product_terms( $product->id, 'product_cat' ), 'name' ) ),
+						'quantity' => $_product->get_quantity(),
+						'category' => implode( ', ', wp_list_pluck( wc_get_product_terms( $product->get_id(), 'product_cat' ), 'name' ) ),
 					);
 
 					$track = array(
