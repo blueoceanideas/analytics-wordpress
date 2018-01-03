@@ -285,7 +285,7 @@ class Segment_Commerce_Woo extends Segment_Commerce {
 			$order = new WC_Order( $order_number );
 
 			/* Because gateways vary wildly in their usage of the status concept, we check for failure rather than success. */
-			if ( 'failed' !== $order->status ) {
+			if ( 'failed' !== $order->get_status() ) {
 
 				$items        = $order->get_items();
 				$products     = array();
