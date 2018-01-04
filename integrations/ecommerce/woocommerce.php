@@ -305,12 +305,14 @@ class Segment_Commerce_Woo extends Segment_Commerce {
 
 				}
 
+                $tax = (is_numeric($order->get_total_tax())) ? $order->get_total_tax() : 0.0;
+
                 $track = array(
                     'event'      => __( 'Completed Order', 'segment' ),
                     'properties' => array(
                         'id'       => $order->get_order_number(),
                         'total'    => $order->get_total(),
-                        'revenue'  => $order->get_total() - ( $this->get_total_shipping() + $order->get_total_tax() ),
+                        'revenue'  => $order->get_total() - ( $this->get_total_shipping() + $tax ),
                         'shipping' => $this->get_total_shipping(),
                         'tax'      => $order->get_total_tax(),
                         'discount' => $order->get_total_discount(),
@@ -320,7 +322,7 @@ class Segment_Commerce_Woo extends Segment_Commerce {
                     )
                 );
 
-			}
+            }
 		}
 
 		return $track;
@@ -345,12 +347,14 @@ class Segment_Commerce_Woo extends Segment_Commerce {
     }
 
     /**
-     * @return string
+     * @return float
      */
     // TODO: Make sure this is correct (it's a suggested replacement for deprecated $order->get_total_shipping())
     protected function get_total_shipping()
     {
-        return WC()->cart->get_cart_shipping_total();
+        $total = WC()->cart->get_cart_shipping_total();
+
+        return (is_numeric($total)) ? $total : 0.0;
     }
 }
 
