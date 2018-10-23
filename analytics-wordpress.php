@@ -91,6 +91,11 @@ class Segment_Analytics {
 			return;
 		}
 
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
+			return;
+		}
+
 		include_once( SEG_FILE_PATH . '/templates/snippet.php' );
 
 	}
@@ -109,7 +114,8 @@ class Segment_Analytics {
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
 
-		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
 			return;
 		}
 
@@ -133,7 +139,8 @@ class Segment_Analytics {
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
 
-		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
 			return;
 		}
 
@@ -157,7 +164,8 @@ class Segment_Analytics {
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
 
-		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
 			return;
 		}
 
@@ -176,7 +184,8 @@ class Segment_Analytics {
 	 * @param  string     $context Optional context parameter to be passed to Segment.
 	 */
 	public static function alias( $from, $to, $context = '' ) {
-		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
 			return;
 		}
 
@@ -540,10 +549,13 @@ class Segment_Analytics_WordPress {
 			$initializeSnippet = false;
 		}
 
-		if ( apply_filters('lrt_segment_initialize_snippet', $initializeSnippet) ) {
-			// Render the snippet.
-			self::$instance->analytics->initialize($settings, $initializeSnippet);
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', $initializeSnippet);
+		if (!$initializeSnippet) {
+			return;
 		}
+
+		// Render the snippet.
+		self::$instance->analytics->initialize($settings, !$initializeSnippet);
 	}
 
 	/**
@@ -553,7 +565,8 @@ class Segment_Analytics_WordPress {
 	 */
 	public function wp_footer() {
 
-		if (! apply_filters('lrt_segment_initialize_snippet', true)) {
+		$initializeSnippet = apply_filters('lrt_segment_initialize_snippet', true);
+		if (!$initializeSnippet) {
 			return;
 		}
 
