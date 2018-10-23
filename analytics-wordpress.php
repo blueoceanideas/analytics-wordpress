@@ -106,9 +106,12 @@ class Segment_Analytics {
 	 * @param  array       $options Array of options to pass to Segment.
 	 */
 	public static function identify( $user_id, $traits = array(), $options = array() ) {
-
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
+
+		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+			return;
+		}
 
 		include_once( SEG_FILE_PATH. '/templates/identify.php' );
 	}
@@ -130,6 +133,10 @@ class Segment_Analytics {
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
 
+		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+			return;
+		}
+
 		include( SEG_FILE_PATH . '/templates/track.php' );
 	}
 
@@ -150,6 +157,10 @@ class Segment_Analytics {
 		// Set the proper `library` option so we know where the API calls come from.
 		$options['library'] = 'analytics-wordpress';
 
+		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+			return;
+		}
+
 		include_once( SEG_FILE_PATH . '/templates/page.php' );
 
 	}
@@ -165,6 +176,9 @@ class Segment_Analytics {
 	 * @param  string     $context Optional context parameter to be passed to Segment.
 	 */
 	public static function alias( $from, $to, $context = '' ) {
+		if (!apply_filters('lrt_segment_initialize_snippet', true)) {
+			return;
+		}
 
 		include_once( SEG_FILE_PATH . '/templates/alias.php' );
 	}
@@ -517,17 +531,19 @@ class Segment_Analytics_WordPress {
 	public function wp_head() {
 
 		// Figure out whether the user should be ignored or not.
-		$ignore = false;
+		$initializeSnippet = true;
 
 		$settings = $this->get_settings();
 		$user     = wp_get_current_user();
 
 		if ( $user->user_level >= $settings['ignore_user_level'] ) {
-			$ignore = true;
+			$initializeSnippet = false;
 		}
 
-		// Render the snippet.
-		self::$instance->analytics->initialize( $settings, $ignore );
+		if ( apply_filters('lrt_segment_initialize_snippet', $initializeSnippet) ) {
+			// Render the snippet.
+			self::$instance->analytics->initialize($settings, $initializeSnippet);
+		}
 	}
 
 	/**
@@ -536,6 +552,10 @@ class Segment_Analytics_WordPress {
 	 * @since 1.0.0
 	 */
 	public function wp_footer() {
+
+		if (! apply_filters('lrt_segment_initialize_snippet', true)) {
+			return;
+		}
 
 		// Identify the user if the current user merits it.
 		$identify = $this->get_current_user_identify();
