@@ -753,8 +753,7 @@ class Segment_Analytics_WordPress {
 
 	/**
 	 * Based on the current user or commenter, see if we have enough information
-	 * to record an `identify` call. Since commenters don't have IDs, we
-	 * identify everyone by their email address.
+	 * to record an `identify` call.
 	 *
 	 * @since  1.0.0
 	 *
@@ -772,7 +771,7 @@ class Segment_Analytics_WordPress {
 		// http://codex.wordpress.org/Function_Reference/wp_get_current_user
 		if ( is_user_logged_in() && $user ) {
 			$identify = array(
-				'user_id' => $user->user_email,
+				'user_id' => (int) $user->ID,
 				'traits'  => array(
 					'username'  => $user->user_login,
 					'email'     => $user->user_email,
@@ -1031,7 +1030,7 @@ class Segment_Analytics_WordPress {
 			$user    = get_user_by( 'id', $user_id );
 
 			$identify = array(
-				'user_id' => $user->user_email,
+				'user_id' => (int) $user->ID,
 				'traits'  => array(
 					'username'  => $user->user_login,
 					'email'     => $user->user_email,
