@@ -23,8 +23,10 @@ class Segment_Cookie {
 	 * @since  1.0.0
 	 */
 	public static function set_cookie( $key, $value ) {
-		@ setcookie( 'segment_' . $key . '_' . COOKIEHASH, $value, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-		$_COOKIE[ 'segment_' . $key . '_' . COOKIEHASH ] = $value;
+        // Clean all non-alphanumeric characters from the key to avoid cookie naming error.
+        $cleanKey = preg_replace('/[^a-zA-Z0-9 ]/', '', $key);
+        @ setcookie( 'segment_' . $key . '_' . COOKIEHASH, $cleanKey, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+        $_COOKIE[ 'segment_' . $key . '_' . COOKIEHASH ] = $cleanKey;
 	}
 
 	/**
