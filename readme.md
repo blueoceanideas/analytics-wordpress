@@ -78,6 +78,9 @@ Need to add custom settings?  By hooking into our `segment_default_settings` and
 
 ## Changelog
 
+= 1.0.8 =
+* Correctly fix 1.0.7
+
 = 1.0.7 =
 * Fix get_current_page_track "Trying to get property 'user_lastname' of non-object"
 

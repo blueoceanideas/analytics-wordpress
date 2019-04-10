@@ -3,7 +3,7 @@
 Plugin Name: Analytics for WordPress — by Segment.io
 Plugin URI: https://segment.io/plugins/wordpress
 Description: The hassle-free way to integrate any analytics service into your WordPress site.
-Version: 1.0.21
+Version: 1.0.22
 License: GPLv2
 Author: Segment.io
 Author URI: https://segment.io
@@ -984,12 +984,12 @@ class Segment_Analytics_WordPress {
 			$track = array(
 				'event'      => __( 'User Signed Up', 'segment' ),
 				'properties' => array(
-					'username'  => ($user->user_login) ? $user->user_login : null,
-					'email'     => ($user->user_email) ? $user->user_email : null,
-					'name'      => ($user->display_name) ? $user->display_name : null,
-					'firstName' => ($user->user_firstname) ? $user->user_firstname : null,
-					'lastName'  => ($user->user_lastname) ? $user->user_lastname : null,
-					'url'       => ($user->url) ? $user->url : null
+					'username'  => ($user) ? $user->user_login : null,
+					'email'     => ($user) ? $user->user_email : null,
+					'name'      => ($user) ? $user->display_name : null,
+					'firstName' => ($user) ? $user->user_firstname : null,
+					'lastName'  => ($user) ? $user->user_lastname : null,
+					'url'       => ($user) ? $user->url : null
 				),
 				'http_event' => 'signed_up'
 			);
