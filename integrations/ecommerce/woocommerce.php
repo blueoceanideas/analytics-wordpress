@@ -316,7 +316,7 @@ class Segment_Commerce_Woo extends Segment_Commerce {
                         'shipping' => $this->get_total_shipping(),
                         'tax'      => $order->get_total_tax(),
                         'discount' => $order->get_total_discount(),
-                        'coupon'   => implode( ',', $order->get_used_coupons() ),
+                        'coupon'   => implode( ',', $order->get_coupon_codes() ),
                         'currency' => $order->get_currency(),
                         'products' => $products
                     )
