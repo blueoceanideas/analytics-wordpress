@@ -25,9 +25,10 @@ class Segment_Cookie {
 	public static function set_cookie( $key, $value ) {
         // Clean all non-alphanumeric characters from the key to avoid cookie naming error.
         $cleanKey = preg_replace('/[^a-zA-Z0-9 ]/', '', $key);
-        @ setcookie( 'segment_' . $key . '_' . COOKIEHASH, $cleanKey, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-        $_COOKIE[ 'segment_' . $key . '_' . COOKIEHASH ] = $cleanKey;
-	}
+        $cleanKey = str_replace(' ', '', $cleanKey);
+        @ setcookie('segment_' . $cleanKey . '_' . COOKIEHASH, $value, time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN);
+        $_COOKIE['segment_' . $cleanKey . '_' . COOKIEHASH] = $value;
+    }
 
 	/**
 	 * A handy utility function to get the cookie that has been set.
